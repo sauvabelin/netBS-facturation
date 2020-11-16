@@ -8,7 +8,8 @@ Module de facturation pour le netBS avec emission de factures QR.
     - genkgo/camt
     - sprain/swiss-qr-bill
 - Ajoutez ce bundle en submodule git de votre projet avec `git add submodule https://github.com/sauvabelin/netBS-facturation netBS/ovesco/FacturationBundle`
-- Ajoutez l'entrée PSR-4 dans le composer.json ```js
+- Ajoutez l'entrée PSR-4 dans le composer.json
+```js
 "autoload": {
     "psr-4": {
         // ...
