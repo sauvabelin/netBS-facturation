@@ -7,6 +7,7 @@ use NetBS\CoreBundle\Service\PreviewerManager;
 use Ovesco\FacturationBundle\Entity\Facture;
 use Ovesco\FacturationBundle\Exporter\PDFQrFacture;
 use Ovesco\FacturationBundle\Model\FactureConfig;
+use Ovesco\FacturationBundle\Model\QrFactureConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -92,7 +93,7 @@ class FactureController extends AbstractController
      */
     public function facturePdfNoDateExportAction(Facture $facture, PDFQrFacture $exporter, PreviewerManager $previewerManager) {
         $items      = [$facture];
-        $config = new FactureConfig(false);
+        $config = new QrFactureConfig();
         $exporter->setConfig($config);
         $previewer  = $previewerManager->getPreviewer($exporter->getPreviewer());
         return $previewer->preview($items, $exporter);
