@@ -312,7 +312,7 @@ class PDFQrFacture extends BaseFactureExporter
 
     private function getQRData(Facture $facture) {
 
-        $clientNumber = $this->parameterManager->getValue('facturation', 'client_identification_number');
+        $clientNumber = $this->parameterManager->getValue('facturation', 'client_identification_number', false);
         $clientNumber = empty($clientNumber) ? null : $clientNumber;
 
         $adresse = $facture->getDebiteur()->getSendableAdresse();
