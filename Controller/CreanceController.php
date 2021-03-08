@@ -131,7 +131,7 @@ class CreanceController extends AbstractController
         try {
             $factures = $this->generatePack($creances);
 
-            if ($form->isValid() && $form->isSubmitted()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
                 /** @var Facture $facture */
                 foreach ($factures as $facture) {
@@ -155,7 +155,7 @@ class CreanceController extends AbstractController
 
     private function extractCreances($ids) {
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getDoctrine()->getManager();
         $query = $em->getRepository('OvescoFacturationBundle:Creance')->createQueryBuilder('c');
         return $query->where($query->expr()->in('c.id', $ids))->getQuery()->getResult();
     }
