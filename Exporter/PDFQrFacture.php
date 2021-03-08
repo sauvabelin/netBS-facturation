@@ -2,7 +2,9 @@
 
 namespace Ovesco\FacturationBundle\Exporter;
 
+use Doctrine\ORM\EntityManagerInterface;
 use NetBS\CoreBundle\Exporter\PDFPreviewer;
+use NetBS\CoreBundle\Service\ParameterManager;
 use Ovesco\FacturationBundle\Entity\Facture;
 use Ovesco\FacturationBundle\Form\QrFactureConfigType;
 use Ovesco\FacturationBundle\Model\QrFactureConfig;
@@ -20,6 +22,8 @@ class PDFQrFacture extends BaseFactureExporter
     const PAYMENT_WIDTH = 148;
     const DEBTOR_WIDTH = 62;
     const PART_MARGIN = 5;
+
+    private $parameterManager;
 
     /**
      * Returns an alias representing this exporter
@@ -55,6 +59,12 @@ class PDFQrFacture extends BaseFactureExporter
     public function getCategory()
     {
         return 'pdf';
+    }
+
+    public function __construct(EntityManagerInterface $manager, ParameterManager $parameterManager)
+    {
+        parent::__construct($manager);
+        $this->parameterManager = $parameterManager;
     }
 
     protected function printDetails(Facture $facture, \FPDF $fpdf) {
@@ -302,6 +312,9 @@ class PDFQrFacture extends BaseFactureExporter
 
     private function getQRData(Facture $facture) {
 
+        $clientNumber = $this->parameterManager->getValue('facturation', 'client_identification_number', false);
+        $clientNumber = empty($clientNumber) ? null : $clientNumber;
+
         $adresse = $facture->getDebiteur()->getSendableAdresse();
         $qrBill = QrBill::create();
         $qrBill->setCreditor(CombinedAddress::create(
@@ -322,7 +335,7 @@ class PDFQrFacture extends BaseFactureExporter
 
         $qrBill->setPaymentAmountInformation(PaymentAmountInformation::create('CHF', null));
 
-        $refNum = QrPaymentReferenceGenerator::generate(null, $facture->getId());
+        $refNum = QrPaymentReferenceGenerator::generate($clientNumber, $facture->getId());
         $qrBill->setPaymentReference(PaymentReference::create(PaymentReference::TYPE_QR, $refNum));
 
         return $qrBill;
