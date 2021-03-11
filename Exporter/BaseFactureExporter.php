@@ -159,7 +159,7 @@ abstract class BaseFactureExporter implements ExporterInterface, ConfigurableExp
         $model = $this->getModel($facture);
         $date = $config->date instanceof \DateTime ? $config->date : $this->factureLatestDate($facture);
         $fpdf->AddPage();
-        $fpdf->Image(__DIR__ . '/Facture/logo.png', 15, 20, 16, 16);
+        $fpdf->Image(__DIR__ . '/../../../../public/bundles/netbscore/img/logo.png', 15, 20, 16, 16);
         $fpdf->SetFont('OpenSans', 'B', 10);
 
         // Print adresse
