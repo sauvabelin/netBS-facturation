@@ -44,7 +44,7 @@ class FactureModelController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->getDoctrine()->getManager();
             $em->persist($model);
             $em->flush();
             $this->addFlash('success', "Modèle de facture ajouté!");
@@ -71,7 +71,7 @@ class FactureModelController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->getDoctrine()->getManager();
             $em->persist($model);
             $em->flush();
             $this->addFlash('success', "Modèle de facture mis à jour!");

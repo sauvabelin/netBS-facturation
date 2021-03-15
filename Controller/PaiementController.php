@@ -34,7 +34,7 @@ class PaiementController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->getDoctrine()->getManager();
             $em->persist($paiement);
             $facture->addPaiement($paiement);
             $em->flush();
